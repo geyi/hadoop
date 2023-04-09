@@ -1,8 +1,16 @@
 package com.airing.hadoop;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.BlockLocation;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +35,31 @@ public class HDFSTest {
             fs.delete(path, true);
         }
         fs.mkdirs(path);
+    }
+
+    @Test
+    public void upload() throws Exception {
+        FileInputStream fileInputStream = new FileInputStream("./data/test.txt");
+
+        FSDataOutputStream fsDataOutputStream = fs.create(new Path("/airing/hello.txt"));
+
+        IOUtils.copyBytes(fileInputStream, fsDataOutputStream, conf, true);
+    }
+
+    @Test
+    public void read() throws Exception {
+        Path path = new Path("/airing/data.txt");
+        FileStatus fileStatus = fs.getFileStatus(path);
+        BlockLocation[] fileBlockLocations = fs.getFileBlockLocations(fileStatus, 0, fileStatus.getLen());
+        for (BlockLocation fileBlockLocation : fileBlockLocations) {
+            System.out.println(fileBlockLocation);
+        }
+
+        FSDataInputStream inputStream = fs.open(path);
+        System.out.println(String.valueOf(inputStream.readByte()));
+        System.out.println(String.valueOf(inputStream.readByte()));
+        System.out.println(String.valueOf(inputStream.readByte()));
+        System.out.println(String.valueOf(inputStream.readByte()));
     }
 
     @After
