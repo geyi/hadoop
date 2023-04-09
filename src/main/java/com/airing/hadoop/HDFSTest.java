@@ -56,10 +56,12 @@ public class HDFSTest {
         }
 
         FSDataInputStream inputStream = fs.open(path);
-        System.out.println(String.valueOf(inputStream.readByte()));
-        System.out.println(String.valueOf(inputStream.readByte()));
-        System.out.println(String.valueOf(inputStream.readByte()));
-        System.out.println(String.valueOf(inputStream.readByte()));
+        System.out.println((char) inputStream.readByte());
+        System.out.println((char) inputStream.readByte());
+        System.out.println((char) inputStream.readByte());
+        System.out.println((char) inputStream.readByte());
+        System.out.println((char) inputStream.readByte());
+        System.out.println((char) inputStream.readByte());
     }
 
     @After
