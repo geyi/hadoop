@@ -1,4 +1,4 @@
-package com.airing.hadoop;
+package com.airing.hadoop.hdfs;
 
 import java.io.File;
 import java.io.FileInputStream;
